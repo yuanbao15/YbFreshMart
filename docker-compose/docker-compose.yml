@@ -1,0 +1,164 @@
+# ===========================================
+# FreshMart 生鲜电商 - 本地开发中间件编排
+# ===========================================
+# 启动: docker-compose up -d
+# 停止: docker-compose down
+# 查看日志: docker-compose logs -f [服务名]
+
+services:
+  # ==================== MySQL 8.0 ====================
+  mysql:
+    image: mysql:8.0
+    container_name: yb-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ../sql:/docker-entrypoint-initdb.d   # 自动执行初始化SQL
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ==================== Redis 7 ====================
+  redis:
+    image: redis:7-alpine
+    container_name: yb-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    command: redis-server --appendonly yes --requirepass redis123
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis123", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  # ==================== Elasticsearch 8 ====================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: yb-es
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false       # 学习阶段关闭安全认证
+      - xpack.security.enrollment.enabled=false
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./es-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -Eq 'green|yellow'"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+
+  # ==================== Kibana (ES 可视化管理) ====================
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: yb-kibana
+    restart: unless-stopped
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  # ==================== RabbitMQ 3.12 ====================
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: yb-rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "5672:5672"     # AMQP 协议端口
+      - "15672:15672"   # 管理控制台端口
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ==================== MongoDB 7 ====================
+  mongodb:
+    image: mongo:7
+    container_name: yb-mongo
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet -u admin -p admin123 --authenticationDatabase admin --eval 'db.runCommand({ping:1})'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ==================== Nacos 2.3（注册中心 + 配置中心） ====================
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: yb-nacos
+    restart: unless-stopped
+    environment:
+      - MODE=standalone                     # 单机模式（学习用）
+      - PREFER_HOST_MODE=hostname
+      # SPRING_DATASOURCE_PLATFORM=mysql    # 生产环境可切换为 MySQL 持久化，需额外配置 db 连接
+      - NACOS_AUTH_ENABLE=false             # 学习阶段关闭认证
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "8848:8848"       # HTTP 端口
+      - "9848:9848"       # gRPC 端口（客户端通信）
+    volumes:
+      - ./nacos-data:/home/nacos/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8848/nacos/v1/console/health/readiness"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+
+  # ==================== Sentinel Dashboard ====================
+  sentinel:
+    image: docker.io/bladex/sentinel-dashboard:1.8.6
+    container_name: yb-sentinel
+    restart: unless-stopped
+    environment:
+      - "TZ=Asia/Shanghai"
+    ports:
+      - "8858:8858"       # Sentinel 控制台（bladex 镜像默认 8858）
+    depends_on:
+      nacos:
+        condition: service_healthy
+
+# ==================== 网络 ====================
+# 默认 bridge 网络即可，所有容器可互相通过服务名访问

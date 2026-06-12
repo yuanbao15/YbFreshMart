@@ -1,0 +1,23 @@
+### 创建用户
+POST http://localhost:8080/api/user
+Content-Type: application/json
+
+{
+  "phone": "13800002222",
+  "nickname": "测试用户2",
+  "password": "123456"
+}
+
+### 查询用户列表
+GET http://localhost:8080/api/user/page?page=1&size=10
+
+
+### 直连 yb-user（绕过网关）
+POST http://localhost:8082/api/user
+Content-Type: application/json
+
+{
+  "phone": "13800001111",
+  "nickname": "测试用户",
+  "password": "123456"
+}

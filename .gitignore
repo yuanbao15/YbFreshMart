@@ -1,0 +1,62 @@
+# ==========================================
+# FreshMart 生鲜电商 - Git 忽略规则
+# ==========================================
+
+# === Maven ===
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.jar
+*.war
+*.ear
+
+# === IDE ===
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+
+# === Spring Boot ===
+*.log
+*.log.*
+
+# === 环境变量 & 密钥 ===
+*.env
+*.env.*
+!*.env.example
+application-local.yml
+application-local.yaml
+
+# === OS ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+~$*
+
+# === Docker ===
+docker-compose/mysql-data/
+docker-compose/redis-data/
+docker-compose/es-data/
+docker-compose/rabbitmq-data/
+docker-compose/mongo-data/
+docker-compose/nacos-data/
+
+# === 临时文件 ===
+temp/
+tmp/
+*.tmp
+*.bak
+*.orig

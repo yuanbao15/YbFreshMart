@@ -1,0 +1,115 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: yb-gateway
+  profiles:
+    active: dev
+  # Nacos 配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace:   # 学习阶段用 public，不写
+        group: DEFAULT_GROUP
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true   # 动态刷新
+        import-check:
+          enabled: false        # 学习阶段关闭，直接使用本地 application.yml
+
+    # Gateway 路由配置
+    gateway:
+      discovery:
+        locator:
+          enabled: false           # 关闭自动路由发现，手动配置更可控
+          lower-case-service-id: true
+
+      # ========== 路由规则 ==========
+      routes:
+        # 认证服务（登录/注册放行，无需鉴权）
+        - id: yb-auth
+          uri: lb://yb-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=0
+
+        # 用户服务（需要登录——AuthFilter 待实现）
+        - id: yb-user
+          uri: lb://yb-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=0
+          # - AuthFilter           # 阶段二实现
+
+        # 商品服务（查询放行，管理需要登录——AuthFilter 待实现）
+        - id: yb-product
+          uri: lb://yb-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=0
+
+        # 搜索服务（公开）
+        - id: yb-search
+          uri: lb://yb-search
+          predicates:
+            - Path=/api/search/**
+
+        # 购物车服务（需要登录——AuthFilter 待实现）
+        - id: yb-cart
+          uri: lb://yb-cart
+          predicates:
+            - Path=/api/cart/**
+          # filters:
+          #   - AuthFilter
+
+        # 订单服务（需要登录——AuthFilter 待实现）
+        - id: yb-order
+          uri: lb://yb-order
+          predicates:
+            - Path=/api/order/**
+          # filters:
+          #   - AuthFilter
+
+        # 库存服务（内部服务，不对外暴露——AuthFilter 待实现）
+        - id: yb-inventory
+          uri: lb://yb-inventory
+          predicates:
+            - Path=/api/inventory/**
+          # filters:
+          #   - AuthFilter
+
+        # 支付服务（需要登录——AuthFilter 待实现）
+        - id: yb-payment
+          uri: lb://yb-payment
+          predicates:
+            - Path=/api/payment/**
+          # filters:
+          #   - AuthFilter
+
+        # 日志查询（内部）
+        - id: yb-log
+          uri: lb://yb-log
+          predicates:
+            - Path=/api/log/**
+
+      # ========== 全局跨域 ==========
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+# ========== JWT 配置（学习用，实际应放在 Nacos 配置中心） ==========
+jwt:
+  secret: FreshMart2024SecretKeyForJWTTokenGenerationMustBeLongEnough
+  expiration: 86400000  # 24小时（毫秒）
