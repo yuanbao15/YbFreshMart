@@ -41,6 +41,27 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开发环境打印 SQL
     map-underscore-to-camel-case: true
 
+# Swagger / Knife4j
+swagger:
+  title: yb-user - 用户服务
+  description: 用户信息管理 & 收货地址接口文档
+  version: 1.0.0
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html           # 原生 Swagger UI 路径
+  api-docs:
+    path: /v3/api-docs               # OpenAPI JSON 路径
+  group-configs:
+    - group: default
+      paths-to-match: "/**"
+
+# Knife4j 增强
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn                  # 中文界面
+
 # 日志
 logging:
   level:

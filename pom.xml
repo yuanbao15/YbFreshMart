@@ -83,6 +83,9 @@
 
         <!-- JWT -->
         <jjwt.version>0.12.5</jjwt.version>
+
+        <!-- Swagger / Knife4j -->
+        <knife4j.version>4.5.0</knife4j.version>
     </properties>
 
     <dependencyManagement>
@@ -157,6 +160,13 @@
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jjwt.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+
+            <!-- Knife4j（Swagger 增强，Spring Boot 3.x） -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
 
             <!-- 内部模块版本统一管理 -->
