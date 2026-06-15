@@ -1,0 +1,1 @@
+import{x as e}from"./index-Bkm06LXV.js";function u(){return e.get("/product/category/tree")}function a(t){return e.get("/product/spu/page",{params:t})}function g(t){return e.get(`/product/spu/${t}`)}function o(t){return e.get("/product/sku/list",{params:{spuId:t}})}export{a,g as b,o as c,u as g};

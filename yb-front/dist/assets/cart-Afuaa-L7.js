@@ -1,0 +1,1 @@
+import{x as a}from"./index-Bkm06LXV.js";function u(t){return a.get(`/cart/${t}/detail`)}function c(t,r){return a.post(`/cart/${t}/items`,r)}function i(t,r,e){return a.put(`/cart/${t}/items/${r}`,null,{params:{quantity:e}})}function o(t,r){return a.delete(`/cart/${t}/items/${r}`)}function s(t){return a.delete(`/cart/${t}/clear`)}export{c as a,s as c,u as g,o as r,i as u};
