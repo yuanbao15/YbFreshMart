@@ -1,0 +1,6 @@
+# 强制所有客户端连接使用 utf8mb4，一劳永逸解决中文乱码
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4

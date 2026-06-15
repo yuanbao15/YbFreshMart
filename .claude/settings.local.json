@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(docker-compose logs *)"
+      "Bash(docker-compose logs *)",
+      "Bash(netstat -ano)",
+      "Bash(java -jar e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent/yb-user/target/yb-user-1.0.0-SNAPSHOT.jar)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8082/doc.html)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: 集成 Knife4j Swagger 接口文档 *)",
+      "Bash(mkdir -p e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent/yb-common-security/src/main/java/com/yb/common/security/util)",
+      "Bash(mkdir -p e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent/yb-common-security/src/main/java/com/yb/common/security/config)",
+      "Bash(mkdir -p e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent/yb-common-security/src/main/java/com/yb/common/security/interceptor)",
+      "Bash(mkdir -p e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent/yb-common-security/src/main/java/com/yb/common/security/context)",
+      "Bash(mkdir -p e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent/yb-common-security/src/main/java/com/yb/common/security/feign)"
     ]
   }
 }

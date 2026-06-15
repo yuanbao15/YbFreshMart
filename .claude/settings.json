@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn clean *)",
+      "Bash(mvn compile *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8081/api/auth/me)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8083/api/product/page?page=1\\\\&size=1)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8085/api/cart/1)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/api/product/category/tree)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8848/nacos/)",
+      "Bash(mvn dependency:tree -pl yb-auth -DskipTests)",
+      "Bash(mvn spring-boot:run)"
+    ]
+  }
+}

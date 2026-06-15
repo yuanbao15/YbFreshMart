@@ -109,6 +109,38 @@ curl -X POST http://localhost:8080/api/user \
   -d '{"phone":"13800138000","password":"123456","nickname":"测试用户"}'
 ```
 
+### 6.关于开发过程的更新打包
+
+#### 1> 什么时候需要执行
+
+只改**业务代码**（Controller/Service/Mapper 等自己的逻辑）→ **不需要**。IDE 直接重启当前服务即可。
+
+改了**公共模块**（以下任一）→ **需要**：
+
+| 模块                 | 被谁依赖                              |
+| -------------------- | ------------------------------------- |
+| `yb-common`          | 所有服务                              |
+| `yb-common-web`      | yb-auth、yb-product、yb-cart、yb-user |
+| `yb-common-security` | yb-auth、yb-product、yb-cart          |
+| `yb-common-redis`    | yb-auth、yb-product、yb-cart          |
+| `yb-common-mybatis`  | yb-auth、yb-product、yb-user          |
+| `yb-api`             | yb-auth                               |
+
+#### 2> 命令
+
+```bash
+cd e:/Epichust/Code/IDEA-S/YB-2026/yb-cloud-parent
+mvn install -DskipTests
+```
+
+不需要 `clean`，`install` 就够了（只编译有变化的文件并更新 `.m2`）。执行完后再重启用到该公共模块的业务服务。
+
+#### 3> 简单判断
+
+看一眼你改的文件路径——只要路径里带 `yb-common` 或 `yb-api`，就执行一次 `mvn install -DskipTests`，然后重启你的业务服务。
+
+
+
 ## 学习路径
 
 | 阶段 | 内容 | 关键技术 |

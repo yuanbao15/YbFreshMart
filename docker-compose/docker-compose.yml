@@ -21,10 +21,12 @@ services:
     volumes:
       - ./mysql-data:/var/lib/mysql
       - ../sql:/docker-entrypoint-initdb.d   # 自动执行初始化SQL
+      - ./mysql-conf:/etc/mysql/conf.d       # 自定义配置（字符集等）
     command:
       - --default-authentication-plugin=mysql_native_password
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake    # 忽略客户端字符集，统一用 utf8mb4
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
       interval: 10s
