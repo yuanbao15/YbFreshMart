@@ -17,6 +17,15 @@ public interface SkuService {
     /** 根据 SPU ID 查询 SKU 列表 */
     java.util.List<SkuEntity> listBySpuId(Long spuId);
 
+    /** 新增 SKU */
+    SkuEntity save(SkuEntity entity);
+
+    /** 更新 SKU */
+    SkuEntity update(SkuEntity entity);
+
+    /** 删除 SKU */
+    void delete(Long id);
+
     /** 更新库存 */
     SkuEntity updateStock(Long id, Integer stock);
 }

@@ -56,6 +56,31 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public SkuEntity save(SkuEntity entity) {
+        skuMapper.insert(entity);
+        log.info("[Product] 新增 SKU 成功, id={}, name={}", entity.getId(), entity.getName());
+        return entity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = "product:detail", key = "#entity.id")
+    public SkuEntity update(SkuEntity entity) {
+        skuMapper.updateById(entity);
+        log.info("[Product] 更新 SKU 成功, id={}", entity.getId());
+        return entity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = "product:detail", key = "#id")
+    public void delete(Long id) {
+        skuMapper.deleteById(id);
+        log.info("[Product] 删除 SKU 成功, id={}", id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "product:detail", key = "#id")
     public SkuEntity updateStock(Long id, Integer stock) {
         SkuEntity entity = getById(id);

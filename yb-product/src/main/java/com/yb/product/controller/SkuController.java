@@ -56,6 +56,28 @@ public class SkuController {
         return R.ok(list);
     }
 
+    /** 新增 SKU */
+    @PostMapping("/sku")
+    public R<SkuEntity> createSku(@RequestBody SkuEntity entity) {
+        SkuEntity created = skuService.save(entity);
+        return R.ok(created);
+    }
+
+    /** 更新 SKU */
+    @PutMapping("/sku/{id}")
+    public R<SkuEntity> updateSku(@PathVariable Long id, @RequestBody SkuEntity entity) {
+        entity.setId(id);
+        SkuEntity updated = skuService.update(entity);
+        return R.ok(updated);
+    }
+
+    /** 删除 SKU */
+    @DeleteMapping("/sku/{id}")
+    public R<Void> deleteSku(@PathVariable Long id) {
+        skuService.delete(id);
+        return R.ok();
+    }
+
     /** 更新库存 */
     @PutMapping("/sku/{id}/stock")
     public R<SkuEntity> updateStock(@PathVariable Long id, @RequestParam Integer stock) {
