@@ -99,12 +99,13 @@ spring:
           predicates:
             - Path=/api/log/**
 
-        # ===== Swagger 文档（转发到 yb-user） =====
-        # 通过网关统一入口访问：http://localhost:8080/doc.html
-        - id: yb-user-swagger
-          uri: lb://yb-user
+        # ===== Swagger 文档入口 =====
+        # http://localhost:8080/doc.html → yb-auth 的文档
+        # 其他服务直连：yb-user:8082/doc.html  yb-product:8083/doc.html  yb-cart:8085/doc.html
+        - id: swagger-docs
+          uri: lb://yb-auth
           predicates:
-            - Path=/doc.html,/webjars/**,/swagger-ui.html,/swagger-ui/**,/v3/api-docs/**
+            - Path=/doc.html,/swagger-ui.html,/swagger-ui/**,/webjars/**,/v3/api-docs/**
 
       # ========== 全局跨域 ==========
       globalcors:

@@ -9,7 +9,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/api/product/category/tree)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8848/nacos/)",
       "Bash(mvn dependency:tree -pl yb-auth -DskipTests)",
-      "Bash(mvn spring-boot:run)"
+      "Bash(mvn spring-boot:run)",
+      "Bash(curl -s http://localhost:8081/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\\\\\"phone\\\\\":\\\\\"15527567530\\\\\",\\\\\"password\\\\\":\\\\\"123456\\\\\"}\")"
     ]
   }
 }
