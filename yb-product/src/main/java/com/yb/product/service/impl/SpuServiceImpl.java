@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yb.common.exception.BizException;
 import com.yb.product.entity.SpuEntity;
 import com.yb.product.mapper.SpuMapper;
+import com.yb.product.service.CategoryService;
 import com.yb.product.service.SpuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.yb.common.enums.ErrorCode.PRODUCT_NOT_FOUND;
 
@@ -22,12 +25,17 @@ import static com.yb.common.enums.ErrorCode.PRODUCT_NOT_FOUND;
 public class SpuServiceImpl implements SpuService {
 
     private final SpuMapper spuMapper;
+    private final CategoryService categoryService;
 
     @Override
     public Page<SpuEntity> page(Long pageNum, Long size, Long categoryId, String keyword) {
         LambdaQueryWrapper<SpuEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(categoryId != null, SpuEntity::getCategoryId, categoryId)
-                .like(keyword != null, SpuEntity::getName, keyword)
+        if (categoryId != null) {
+            // 查询该类目及所有子孙类目下的商品
+            List<Long> catIds = categoryService.getDescendantIds(categoryId);
+            wrapper.in(SpuEntity::getCategoryId, catIds);
+        }
+        wrapper.like(keyword != null, SpuEntity::getName, keyword)
                 .orderByDesc(SpuEntity::getCreateTime);
         Page<SpuEntity> page = new Page<>(pageNum, size);
         return spuMapper.selectPage(page, wrapper);

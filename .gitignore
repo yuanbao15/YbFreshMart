@@ -60,3 +60,9 @@ tmp/
 *.tmp
 *.bak
 *.orig
+
+
+# === 前端文件 ===
+yb-front/temp/
+yb-front/node_modules/
+yb-front/package-lock.json

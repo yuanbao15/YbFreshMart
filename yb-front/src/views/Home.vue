@@ -10,22 +10,22 @@
         <ul class="category-tree" v-else>
           <li v-for="cat in categories" :key="cat.id" class="category-item"
               :class="{ active: activeCategoryId === cat.id }"
-              @click="selectCategory(cat.id)">
+              @click="handleCatClick(cat)">
             <span class="category-icon">{{ cat.icon || '📁' }}</span>
             <span class="category-name">{{ cat.name }}</span>
             <span class="category-arrow" v-if="cat.children?.length">›</span>
             <!-- 二级 -->
-            <ul v-if="cat.children?.length && activeCategoryId === cat.id" class="sub-tree">
+            <ul v-if="cat.children?.length && expandedId === cat.id" class="sub-tree">
               <li v-for="sub in cat.children" :key="sub.id" class="sub-item"
                   :class="{ active: activeCategoryId === sub.id }"
-                  @click.stop="selectCategory(sub.id)">
+                  @click.stop="handleCatClick(sub, cat.id)">
                 <span class="category-icon">{{ sub.icon || '📂' }}</span>
                 {{ sub.name }}
                 <!-- 三级 -->
                 <ul v-if="sub.children?.length" class="sub-tree sub-tree-3">
                   <li v-for="sub3 in sub.children" :key="sub3.id" class="sub-item"
                       :class="{ active: activeCategoryId === sub3.id }"
-                      @click.stop="selectCategory(sub3.id)">
+                      @click.stop="handleCatClick(sub3, cat.id)">
                     <span class="category-icon">{{ sub3.icon || '📄' }}</span>
                     {{ sub3.name }}
                   </li>
@@ -72,7 +72,8 @@ import ProductCard from '../components/ProductCard.vue'
 
 const categories = ref([])
 const catLoading = ref(false)
-const activeCategoryId = ref(null)
+const expandedId = ref(null)      // 控制一级类目的展开/折叠
+const activeCategoryId = ref(null) // 当前筛选的类目
 
 const spuList = ref([])
 const loading = ref(false)
@@ -115,11 +116,19 @@ async function loadProducts() {
   }
 }
 
-function selectCategory(catId) {
-  if (activeCategoryId.value === catId) {
-    activeCategoryId.value = null
+function handleCatClick(cat, parentId) {
+  if (parentId) {
+    // 二级或三级：设置筛选，保持父级展开
+    activeCategoryId.value = activeCategoryId.value === cat.id ? null : cat.id
+    expandedId.value = parentId  // 确保父级一级类目保持展开
   } else {
-    activeCategoryId.value = catId
+    // 一级：切换展开，同时设置筛选
+    if (expandedId.value === cat.id) {
+      expandedId.value = null
+    } else {
+      expandedId.value = cat.id
+    }
+    activeCategoryId.value = activeCategoryId.value === cat.id ? null : cat.id
   }
   page.value = 1
   loadProducts()

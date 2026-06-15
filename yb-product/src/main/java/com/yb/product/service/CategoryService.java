@@ -24,4 +24,7 @@ public interface CategoryService {
 
     /** 删除类目（逻辑删除） */
     boolean delete(Long id);
+
+    /** 获取类目及其所有子孙类目的 ID 列表 */
+    List<Long> getDescendantIds(Long categoryId);
 }

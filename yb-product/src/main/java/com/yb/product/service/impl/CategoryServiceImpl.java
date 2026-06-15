@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "product:categories", key = "'tree'")
+    @CacheEvict(value = "product:categories", allEntries = true)
     public CategoryEntity save(CategoryEntity entity) {
         categoryMapper.insert(entity);
         log.info("[Product] 新增类目成功, id={}, name={}", entity.getId(), entity.getName());
@@ -76,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "product:categories", key = "'tree'")
+    @CacheEvict(value = "product:categories", allEntries = true)
     public CategoryEntity update(Long id, CategoryEntity entity) {
         CategoryEntity existing = getById(id);
         if (entity.getName() != null) existing.setName(entity.getName());
@@ -88,8 +88,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable(value = "product:categories", key = "'descendants:' + #categoryId")
+    public List<Long> getDescendantIds(Long categoryId) {
+        List<CategoryEntity> all = categoryMapper.selectList(null);
+        Map<Long, List<CategoryEntity>> childrenMap = all.stream()
+                .filter(c -> c.getParentId() != 0)
+                .collect(Collectors.groupingBy(CategoryEntity::getParentId));
+
+        List<Long> ids = new ArrayList<>();
+        collectIds(categoryId, childrenMap, ids);
+        ids.add(categoryId);  // 包含自身
+        return ids;
+    }
+
+    private void collectIds(Long parentId, Map<Long, List<CategoryEntity>> childrenMap, List<Long> result) {
+        List<CategoryEntity> children = childrenMap.get(parentId);
+        if (children == null) return;
+        for (CategoryEntity child : children) {
+            result.add(child.getId());
+            collectIds(child.getId(), childrenMap, result);
+        }
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = "product:categories", key = "'tree'")
+    @CacheEvict(value = "product:categories", allEntries = true)
     public boolean delete(Long id) {
         getById(id);
         categoryMapper.deleteById(id);
