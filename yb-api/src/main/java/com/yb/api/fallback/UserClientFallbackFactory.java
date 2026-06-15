@@ -1,6 +1,7 @@
 package com.yb.api.fallback;
 
 import com.yb.api.client.UserClient;
+import com.yb.api.dto.req.UserCreateReq;
 import com.yb.api.dto.req.UserProfileReq;
 import com.yb.api.dto.resp.UserProfileResp;
 import com.yb.api.dto.resp.UserSimpleResp;
@@ -27,6 +28,11 @@ public class UserClientFallbackFactory implements FallbackFactory<UserClient> {
 
             @Override
             public R<UserProfileResp> getProfile(UserProfileReq req) {
+                return R.fail(500, "用户服务暂时不可用");
+            }
+
+            @Override
+            public R<UserProfileResp> createUser(UserCreateReq req) {
                 return R.fail(500, "用户服务暂时不可用");
             }
         };

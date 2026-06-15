@@ -35,9 +35,9 @@ yb-cloud-parent/
 ├── yb-common-mongo/        # MongoDB公共配置           [阶段三]
 ├── yb-common-sentinel/     # Sentinel降级处理          [阶段四]
 ├── yb-api/                 # Feign接口集中管理
-├── yb-gateway/             # API网关 (8080)
+├── yb-gateway/             # API网关 (8080)            [阶段一]
 ├── yb-auth/                # 认证授权 (8081)           [阶段二]
-├── yb-user/                # 用户服务 (8082)          ✅
+├── yb-user/                # 用户服务 (8082)          [阶段一]
 ├── yb-product/             # 商品服务 (8083)           [阶段二]
 ├── yb-search/              # 搜索服务 (8084)           [阶段三]
 ├── yb-cart/                # 购物车服务 (8085)         [阶段二]
@@ -113,8 +113,8 @@ curl -X POST http://localhost:8080/api/user \
 
 | 阶段 | 内容 | 关键技术 |
 |---|---|---|
-| 阶段一 | 基础骨架 + Gateway + User CRUD | SpringBoot, MyBatis-Plus, Nacos, Gateway, OpenFeign |
-| 阶段二 | 认证授权 + 商品 + 购物车 + Redis | JWT, Redis缓存, @Cacheable |
+| 阶段一 | 基础骨架 + Gateway + User CRUD | SpringBoot, MyBatis-Plus, Nacos, Gateway, OpenFeign | ✅
+| 阶段二 | 认证授权 + 商品 + 购物车 + Redis | JWT, Redis缓存, @Cacheable | ✅
 | 阶段三 | ES搜索 + MongoDB日志 + RabbitMQ | 全文检索, 文档存储, 消息发布/订阅 |
 | 阶段四 | 下单核心链路 + Sentinel | 分布式锁, 死信队列, 限流熔断 |
 | 阶段五 | 支付 + 通知闭环 | 多服务消息驱动 |

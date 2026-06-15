@@ -1,5 +1,6 @@
 package com.yb.api.client;
 
+import com.yb.api.dto.req.UserCreateReq;
 import com.yb.api.dto.req.UserProfileReq;
 import com.yb.api.dto.resp.UserProfileResp;
 import com.yb.api.dto.resp.UserSimpleResp;
@@ -25,4 +26,8 @@ public interface UserClient {
 
     @PostMapping("/profile")
     R<UserProfileResp> getProfile(@RequestBody UserProfileReq req);
+
+    /** 注册时创建用户档案 */
+    @PostMapping
+    R<UserProfileResp> createUser(@RequestBody UserCreateReq req);
 }

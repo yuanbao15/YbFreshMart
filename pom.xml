@@ -29,13 +29,12 @@
         <module>yb-gateway</module>
         <module>yb-user</module>
 
-        <!-- ===== 阶段二：认证 + 商品 + 购物车 + Redis ===
+        <!-- ===== 阶段二：认证 + 商品 + 购物车 + Redis ===== -->
         <module>yb-common-security</module>
         <module>yb-common-redis</module>
         <module>yb-auth</module>
         <module>yb-product</module>
         <module>yb-cart</module>
-        -->
 
         <!-- ===== 阶段三：搜索 + 日志 + RabbitMQ ===
         <module>yb-common-mq</module>
@@ -86,6 +85,9 @@
 
         <!-- Swagger / Knife4j -->
         <knife4j.version>4.5.0</knife4j.version>
+
+        <!-- Querydsl -->
+        <querydsl.version>5.1.0</querydsl.version>
     </properties>
 
     <dependencyManagement>
@@ -123,6 +125,11 @@
             </dependency>
 
             <!-- Redisson 分布式锁 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
@@ -167,6 +174,19 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <!-- 覆盖 SpringDoc 版本（修复 QuerydslProvider 条件评估失败） -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>2.6.0</version>
+            </dependency>
+
+            <!-- Querydsl（解决 SpringDoc QuerydslProvider 条件评估失败） -->
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-core</artifactId>
+                <version>${querydsl.version}</version>
             </dependency>
 
             <!-- 内部模块版本统一管理 -->

@@ -41,7 +41,7 @@ public class AuthGlobalFilter implements GlobalFilter {
             "/api/search",
             "/api/product/page",
             "/api/product/category",
-            "/api/user",        // TODO: 阶段一调试放行，阶段二接入 auth 后移除
+            // "/api/user",     // 阶段二：正式接入 auth，不再放行
             "/doc.html",
             "/swagger-ui",
             "/webjars",
