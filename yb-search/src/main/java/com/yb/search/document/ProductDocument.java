@@ -17,9 +17,11 @@ public class ProductDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 商品（SKU）ID */
     @Id
     private Long id;
 
+    /** SPU ID */
     @Field(type = FieldType.Long)
     private Long spuId;
 
@@ -34,12 +36,15 @@ public class ProductDocument implements Serializable {
     )
     private String name;
 
+    /** 商品图片 */
     @Field(type = FieldType.Keyword, index = false)
     private String image;
 
+    /** 商品价格 */
     @Field(type = FieldType.Double)
     private BigDecimal price;
 
+    /** 库存数量 */
     @Field(type = FieldType.Integer)
     private Integer stock;
 

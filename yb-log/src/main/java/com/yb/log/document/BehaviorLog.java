@@ -17,6 +17,7 @@ public class BehaviorLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 文档ID */
     @Id
     private String id;
 

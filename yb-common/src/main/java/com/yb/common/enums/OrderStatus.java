@@ -16,7 +16,9 @@ public enum OrderStatus {
     REFUNDING(5, "退款中"),
     REFUNDED(6, "已退款");
 
+    /** 状态码 */
     private final Integer code;
+    /** 状态描述 */
     private final String desc;
 
     OrderStatus(Integer code, String desc) {

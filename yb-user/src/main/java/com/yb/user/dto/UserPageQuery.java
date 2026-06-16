@@ -15,10 +15,12 @@ public class UserPageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 页码 */
     @NotNull(message = "页码不能为空")
     @Min(value = 1, message = "页码最小为 1")
     private Long page;
 
+    /** 每页大小 */
     @NotNull(message = "每页大小不能为空")
     @Min(value = 1, message = "每页大小最小为 1")
     @Max(value = 100, message = "每页大小最大为 100")

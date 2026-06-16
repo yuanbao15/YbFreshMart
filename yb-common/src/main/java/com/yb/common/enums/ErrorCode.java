@@ -58,7 +58,9 @@ public enum ErrorCode {
     // ========== 搜索 7xxx ==========
     SEARCH_ERROR(7001, "搜索服务异常");
 
+    /** 错误码 */
     private final Integer code;
+    /** 错误描述 */
     private final String message;
 
     ErrorCode(Integer code, String message) {

@@ -15,14 +15,17 @@ public class RegisterReq implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 手机号 */
     @NotBlank(message = "手机号不能为空")
     @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
     private String phone;
 
+    /** 密码 */
     @NotBlank(message = "密码不能为空")
     @Size(min = 6, max = 20, message = "密码长度 6-20 位")
     private String password;
 
+    /** 昵称 */
     @Size(max = 20, message = "昵称最长 20 个字符")
     private String nickname;
 }
