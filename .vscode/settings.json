@@ -1,0 +1,66 @@
+{
+    // ================================================================
+    //  Java 开发配置（Spring Cloud 多模块 Maven 项目）
+    // ================================================================
+
+    // ---- Java 编译 ----
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.autobuild.enabled": true, // 保存文件自动编译
+
+    // ---- Maven ----
+    "maven.executable.path": "",
+    "maven.terminal.useJavaHome": true,
+    "java.configuration.maven.userSettings": null,
+    "java.configuration.maven.globalSettings": null,
+
+    // ---- 导入与代码补全 ----
+    "java.completion.importOrder": [
+        "java",
+        "javax",
+        "org.springframework",
+        "org",
+        "com.yb",
+        "com",
+        ""
+    ],
+    "java.saveActions.organizeImports": false,
+
+    // ---- 源码包扫描（多模块项目需要覆盖所有模块） ----
+    "java.project.sourcePaths": [
+        "yb-common/src/main/java",
+        "yb-common-web/src/main/java",
+        "yb-common-mybatis/src/main/java",
+        "yb-common-security/src/main/java",
+        "yb-common-redis/src/main/java",
+        "yb-api/src/main/java",
+        "yb-gateway/src/main/java",
+        "yb-auth/src/main/java",
+        "yb-user/src/main/java",
+        "yb-product/src/main/java",
+        "yb-cart/src/main/java"
+    ],
+
+    // ---- 排除不需要索引的目录 ----
+    "files.watcherExclude": {
+        "**/target/**": true,
+        "**/node_modules/**": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true
+    },
+    "java.project.resourceFilters": [
+        "node_modules",
+        ".git"
+    ],
+
+    // ---- 终端配置 ----
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.env.windows": {
+        "JAVA_HOME": "${env:JAVA_HOME}"
+    },
+
+    // ---- 调试 ----
+    "java.debug.settings.hotCodeReplace": "manual", // 手动重启来应用更改
+    "java.debug.settings.enableRunDebugCodeLens": true,
+    "java.debug.settings.console": "integratedTerminal"
+}

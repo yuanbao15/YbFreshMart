@@ -1,0 +1,143 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // ================================================================
+        //  后端服务（Spring Boot 微服务，断点调试）
+        //  启动前请确保 docker-compose 中的基础设施已就绪：
+        //     cd docker-compose && docker compose up -d
+        // ================================================================
+
+        {
+            "type": "java",
+            "name": "🚪 yb-gateway · 网关 :8080",
+            "request": "launch",
+            "mainClass": "com.yb.gateway.GatewayApplication",
+            "projectName": "yb-gateway",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
+        {
+            "type": "java",
+            "name": "🔐 yb-auth · 认证授权 :8081",
+            "request": "launch",
+            "mainClass": "com.yb.auth.AuthApplication",
+            "projectName": "yb-auth",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
+        {
+            "type": "java",
+            "name": "👤 yb-user · 用户服务 :8082",
+            "request": "launch",
+            "mainClass": "com.yb.user.UserApplication",
+            "projectName": "yb-user",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
+        {
+            "type": "java",
+            "name": "📦 yb-product · 商品服务 :8083",
+            "request": "launch",
+            "mainClass": "com.yb.product.ProductApplication",
+            "projectName": "yb-product",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
+        {
+            "type": "java",
+            "name": "🛒 yb-cart · 购物车 :8085",
+            "request": "launch",
+            "mainClass": "com.yb.cart.CartApplication",
+            "projectName": "yb-cart",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
+
+        // ================================================================
+        //  前端服务（Vue 3 + Vite，已配置 /api → :8080 代理）
+        //  需要先执行 npm install（仅首次）：
+        //     cd yb-front && npm install
+        // ================================================================
+
+        {
+            "type": "node",
+            "name": "🎨 yb-front · 前端 :5173",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["vite"],
+            "cwd": "${workspaceFolder}/yb-front",
+            "console": "integratedTerminal",
+            "env": {
+                "BROWSER": "none"
+            }
+        },
+
+        // ================================================================
+        //  浏览器调试（前端断点）
+        //  先启动 yb-front 服务，再用此配置打开浏览器并附加调试器
+        // ================================================================
+
+        {
+            "type": "chrome",
+            "name": "🌐 Chrome 调试前端",
+            "request": "launch",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/yb-front/src",
+            "sourceMapPathOverrides": {
+                "/@fs/*": "${workspaceFolder}/*"
+            }
+        }
+    ],
+    "compounds": [
+        // ================================================================
+        //  复合配置：一键启动多个服务
+        // ================================================================
+
+        {
+            "name": "🚀 全部后端（5 个服务）",
+            "configurations": [
+                "🚪 yb-gateway · 网关 :8080",
+                "🔐 yb-auth · 认证授权 :8081",
+                "👤 yb-user · 用户服务 :8082",
+                "📦 yb-product · 商品服务 :8083",
+                "🛒 yb-cart · 购物车 :8085"
+            ],
+            "stopAll": true
+        },
+        {
+            "name": "⭐ 核心服务（网关 + 认证 + 用户）",
+            "configurations": [
+                "🚪 yb-gateway · 网关 :8080",
+                "🔐 yb-auth · 认证授权 :8081",
+                "👤 yb-user · 用户服务 :8082"
+            ],
+            "stopAll": true
+        },
+        {
+            "name": "🖥️ 全栈启动（核心后端 + 前端）",
+            "configurations": [
+                "🚪 yb-gateway · 网关 :8080",
+                "🔐 yb-auth · 认证授权 :8081",
+                "👤 yb-user · 用户服务 :8082",
+                "🎨 yb-front · 前端 :5173"
+            ],
+            "stopAll": true
+        },
+        {
+            "name": "🎯 全栈启动 + 浏览器调试",
+            "configurations": [
+                "🚪 yb-gateway · 网关 :8080",
+                "🔐 yb-auth · 认证授权 :8081",
+                "👤 yb-user · 用户服务 :8082",
+                "🎨 yb-front · 前端 :5173",
+                "🌐 Chrome 调试前端"
+            ],
+            "stopAll": true
+        }
+    ]
+}

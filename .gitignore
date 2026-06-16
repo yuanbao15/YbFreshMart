@@ -18,7 +18,7 @@ target/
 out/
 
 # VS Code
-.vscode/
+# .vscode/      还是需要跟踪.vscode/下的两个文件settings.json/launch.json用于调试
 *.code-workspace
 
 # Eclipse
