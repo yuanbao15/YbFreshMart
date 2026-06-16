@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -16,6 +18,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +35,12 @@ public class AuthGlobalFilter implements GlobalFilter {
 
     @Value("${jwt.secret:FreshMart2024SecretKeyForJWTTokenGenerationMustBeLongEnough}")
     private String jwtSecret;
+
+    @Autowired
+    private RedissonClient redissonClient;
+
+    /** Token 黑名单 Redis Key 前缀 */
+    private static final String TOKEN_BLACKLIST = "token:blacklist:";
 
     /** 放行路径（不需要 Token） */
     private static final String[] WHITE_LIST = {
@@ -80,7 +89,17 @@ public class AuthGlobalFilter implements GlobalFilter {
             Long userId = claims.get("userId", Long.class);
             String role = claims.get("role", String.class);
 
-            // 4. 向后传递用户信息
+            // 4. 检查 Token 是否在黑名单中（已登出/被撤销的 Token）
+            String blacklistKey = TOKEN_BLACKLIST + token;
+            boolean isBlacklisted = Boolean.TRUE.equals(
+                    redissonClient.getBucket(blacklistKey).isExists());
+            if (isBlacklisted) {
+                log.warn("[Auth] Token 已被拉黑, userId={}, path={}", userId, path);
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
+
+            // 5. 向后传递用户信息
             ServerHttpRequest mutatedRequest = request.mutate()
                     .header("X-User-Id", String.valueOf(userId))
                     .header("X-User-Role", role == null ? "user" : role)

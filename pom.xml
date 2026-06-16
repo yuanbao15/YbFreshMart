@@ -36,13 +36,12 @@
         <module>yb-product</module>
         <module>yb-cart</module>
 
-        <!-- ===== 阶段三：搜索 + 日志 + RabbitMQ ===
+        <!-- ===== 阶段三：搜索 + 日志 + RabbitMQ -->
         <module>yb-common-mq</module>
         <module>yb-common-es</module>
         <module>yb-common-mongo</module>
         <module>yb-search</module>
         <module>yb-log</module>
-        -->
 
         <!-- ===== 阶段四：订单 + 库存 + Sentinel ===
         <module>yb-common-redis</module>

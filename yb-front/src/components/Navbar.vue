@@ -4,6 +4,7 @@
       <router-link to="/" class="logo">🥬 FreshMart</router-link>
       <div class="nav-links">
         <router-link to="/" class="nav-link">首页</router-link>
+        <router-link to="/search" class="nav-link">🔍 搜索</router-link>
         <template v-if="auth.isLoggedIn">
           <router-link to="/cart" class="nav-link">🛒 购物车</router-link>
           <span class="nav-dropdown">

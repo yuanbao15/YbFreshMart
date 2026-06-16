@@ -38,6 +38,12 @@ const routes = [
     meta: { title: '个人中心', requireAuth: true }
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
+    meta: { title: '商品搜索' }
+  },
+  {
     path: '/admin/categories',
     name: 'CategoryManage',
     component: () => import('../views/admin/CategoryManage.vue'),
@@ -48,6 +54,12 @@ const routes = [
     name: 'ProductManage',
     component: () => import('../views/admin/ProductManage.vue'),
     meta: { title: '商品管理', requireAuth: true }
+  },
+  {
+    path: '/admin/logs',
+    name: 'LogView',
+    component: () => import('../views/admin/LogView.vue'),
+    meta: { title: '日志查询', requireAuth: true }
   },
   {
     path: '/:pathMatch(.*)*',

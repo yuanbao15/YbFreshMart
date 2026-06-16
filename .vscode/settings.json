@@ -26,21 +26,6 @@
     ],
     "java.saveActions.organizeImports": false,
 
-    // ---- 源码包扫描（多模块项目需要覆盖所有模块） ----
-    "java.project.sourcePaths": [
-        "yb-common/src/main/java",
-        "yb-common-web/src/main/java",
-        "yb-common-mybatis/src/main/java",
-        "yb-common-security/src/main/java",
-        "yb-common-redis/src/main/java",
-        "yb-api/src/main/java",
-        "yb-gateway/src/main/java",
-        "yb-auth/src/main/java",
-        "yb-user/src/main/java",
-        "yb-product/src/main/java",
-        "yb-cart/src/main/java"
-    ],
-
     // ---- 排除不需要索引的目录 ----
     "files.watcherExclude": {
         "**/target/**": true,
@@ -48,10 +33,6 @@
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true
     },
-    "java.project.resourceFilters": [
-        "node_modules",
-        ".git"
-    ],
 
     // ---- 终端配置 ----
     "terminal.integrated.defaultProfile.windows": "Git Bash",
@@ -62,5 +43,6 @@
     // ---- 调试 ----
     "java.debug.settings.hotCodeReplace": "manual", // 手动重启来应用更改
     "java.debug.settings.enableRunDebugCodeLens": true,
-    "java.debug.settings.console": "integratedTerminal"
+    "java.debug.settings.console": "integratedTerminal",
+    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms100m -Xlog:disable"
 }

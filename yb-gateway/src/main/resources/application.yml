@@ -117,6 +117,13 @@ spring:
             allowCredentials: true
             maxAge: 3600
 
+  # Redis 配置（Token 黑名单检查）
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: redis123
+
 # ========== JWT 配置（学习用，实际应放在 Nacos 配置中心） ==========
 jwt:
   secret: FreshMart2024SecretKeyForJWTTokenGenerationMustBeLongEnough

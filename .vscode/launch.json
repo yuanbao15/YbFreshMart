@@ -57,6 +57,26 @@
             "console": "integratedTerminal",
             "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
         },
+        {
+            "type": "java",
+            "name": "🔍 yb-search · 搜索服务 :8084",
+            "request": "launch",
+            "mainClass": "com.yb.search.SearchApplication",
+            "projectName": "yb-search",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
+        {
+            "type": "java",
+            "name": "📋 yb-log · 日志服务 :8090",
+            "request": "launch",
+            "mainClass": "com.yb.log.LogApplication",
+            "projectName": "yb-log",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "vmArgs": "-Dfile.encoding=UTF-8 -Dspring.output.ansi.enabled=ALWAYS"
+        },
 
         // ================================================================
         //  前端服务（Vue 3 + Vite，已配置 /api → :8080 代理）
@@ -99,13 +119,27 @@
         // ================================================================
 
         {
-            "name": "🚀 全部后端（5 个服务）",
+            "name": "🚀 全部后端（7 个服务）",
             "configurations": [
                 "🚪 yb-gateway · 网关 :8080",
                 "🔐 yb-auth · 认证授权 :8081",
                 "👤 yb-user · 用户服务 :8082",
                 "📦 yb-product · 商品服务 :8083",
-                "🛒 yb-cart · 购物车 :8085"
+                "🛒 yb-cart · 购物车 :8085",
+                "🔍 yb-search · 搜索服务 :8084",
+                "📋 yb-log · 日志服务 :8090"
+            ],
+            "stopAll": true
+        },
+        {
+            "name": "📡 阶段三核心（搜索 + 日志 + 基础设施）",
+            "configurations": [
+                "🚪 yb-gateway · 网关 :8080",
+                "🔐 yb-auth · 认证授权 :8081",
+                "👤 yb-user · 用户服务 :8082",
+                "📦 yb-product · 商品服务 :8083",
+                "🔍 yb-search · 搜索服务 :8084",
+                "📋 yb-log · 日志服务 :8090"
             ],
             "stopAll": true
         },

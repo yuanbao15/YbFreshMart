@@ -1,0 +1,66 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: yb-search
+  profiles:
+    active: dev
+  # Elasticsearch
+  elasticsearch:
+    uris: http://localhost:9200
+    connection-timeout: 3s
+    socket-timeout: 10s
+  # RabbitMQ
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin123
+    listener:
+      simple:
+        acknowledge-mode: auto
+        retry:
+          enabled: true
+          initial-interval: 2s
+          max-attempts: 3
+  # Nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace:
+        group: DEFAULT_GROUP
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        refresh-enabled: true
+        import-check:
+          enabled: false
+
+# Swagger / Knife4j
+swagger:
+  title: yb-search - 搜索服务
+  description: 商品全文检索接口文档
+  version: 1.0.0
+
+springdoc:
+  enable-spring-data-rest-support: false
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: default
+      paths-to-match: "/**"
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+# 日志
+logging:
+  level:
+    com.yb: debug

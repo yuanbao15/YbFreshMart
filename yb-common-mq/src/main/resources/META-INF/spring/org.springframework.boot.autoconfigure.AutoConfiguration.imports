@@ -1,0 +1,2 @@
+com.yb.common.mq.config.RabbitMQConfig
+com.yb.common.mq.config.ExchangeQueueDeclarer
