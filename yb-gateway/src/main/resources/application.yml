@@ -69,29 +69,29 @@ spring:
           # filters:
           #   - AuthFilter
 
-        # 订单服务（需要登录——AuthFilter 待实现）
-        - id: yb-order
-          uri: lb://yb-order
-          predicates:
-            - Path=/api/order/**
-          # filters:
-          #   - AuthFilter
+        # 订单服务（需要登录——AuthFilter 待实现）——阶段四启用
+        # - id: yb-order
+        #   uri: lb://yb-order
+        #   predicates:
+        #     - Path=/api/order/**
+        #   # filters:
+        #   #   - AuthFilter
 
-        # 库存服务（内部服务，不对外暴露——AuthFilter 待实现）
-        - id: yb-inventory
-          uri: lb://yb-inventory
-          predicates:
-            - Path=/api/inventory/**
-          # filters:
-          #   - AuthFilter
+        # 库存服务（内部服务，不对外暴露——AuthFilter 待实现）——阶段四启用
+        # - id: yb-inventory
+        #   uri: lb://yb-inventory
+        #   predicates:
+        #     - Path=/api/inventory/**
+        #   # filters:
+        #   #   - AuthFilter
 
-        # 支付服务（需要登录——AuthFilter 待实现）
-        - id: yb-payment
-          uri: lb://yb-payment
-          predicates:
-            - Path=/api/payment/**
-          # filters:
-          #   - AuthFilter
+        # 支付服务（需要登录——AuthFilter 待实现）——阶段五启用
+        # - id: yb-payment
+        #   uri: lb://yb-payment
+        #   predicates:
+        #     - Path=/api/payment/**
+        #   # filters:
+        #   #   - AuthFilter
 
         # 日志查询（内部）
         - id: yb-log

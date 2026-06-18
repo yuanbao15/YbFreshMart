@@ -12,6 +12,7 @@
             <span class="dropdown-menu">
               <router-link to="/admin/categories">📁 类目管理</router-link>
               <router-link to="/admin/products">📦 商品管理</router-link>
+              <router-link to="/admin/logs">📋 日志查询</router-link>
             </span>
           </span>
           <router-link to="/profile" class="nav-link">👤 {{ auth.nickname || auth.phone || '我的' }}</router-link>

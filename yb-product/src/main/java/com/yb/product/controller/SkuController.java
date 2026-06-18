@@ -5,7 +5,9 @@ import com.yb.api.dto.resp.ProductResp;
 import com.yb.common.dto.PageDTO;
 import com.yb.common.dto.R;
 import com.yb.product.entity.SkuEntity;
+import com.yb.product.service.CategoryService;
 import com.yb.product.service.SkuService;
+import com.yb.product.service.SpuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 public class SkuController {
 
     private final SkuService skuService;
+    private final SpuService spuService;
+    private final CategoryService categoryService;
 
     /** SKU 详情（Feign 契约：ProductClient.getSkuById） */
     @GetMapping("/{skuId}")
@@ -93,6 +97,13 @@ public class SkuController {
         resp.setImage(entity.getImage());
         resp.setPrice(entity.getPrice());
         resp.setStock(entity.getStock());
+        // 从 SPU 获取类目信息
+        try {
+            resp.setCategoryId(spuService.getById(entity.getSpuId()).getCategoryId());
+            resp.setCategoryName(categoryService.getById(resp.getCategoryId()).getName());
+        } catch (Exception e) {
+            // 忽略类目信息获取失败
+        }
         return resp;
     }
 }

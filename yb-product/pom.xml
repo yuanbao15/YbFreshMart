@@ -50,6 +50,15 @@
             <groupId>com.yb</groupId>
             <artifactId>yb-common-security</artifactId>
         </dependency>
+        <!-- OpenFeign + LoadBalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
         <!-- API 接口（Feign 契约 DTO） -->
         <dependency>
             <groupId>com.yb</groupId>

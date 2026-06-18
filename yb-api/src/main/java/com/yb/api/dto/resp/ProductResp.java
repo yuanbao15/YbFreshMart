@@ -25,4 +25,8 @@ public class ProductResp implements Serializable {
     private BigDecimal price;
     /** 库存数量 */
     private Integer stock;
+    /** 类目 ID */
+    private Long categoryId;
+    /** 类目名称 */
+    private String categoryName;
 }

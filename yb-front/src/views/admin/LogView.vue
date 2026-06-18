@@ -92,8 +92,8 @@ async function query() {
 
     const fn = tab.value === 'behavior' ? getBehaviorLogs : getAuditLogs
     const res = await fn(params)
-    if (res.data?.code === 200) {
-      const d = res.data.data
+    if (res.code === 200) {
+      const d = res.data
       list.value = d.records || []
       total.value = d.total || 0
       pages.value = d.pages || 1

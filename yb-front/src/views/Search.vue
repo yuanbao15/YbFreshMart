@@ -82,8 +82,8 @@ const searched = ref(false)
 async function loadCategories() {
   try {
     const res = await getCategoryTree()
-    if (res.data?.code === 200) {
-      flattenTree(res.data.data || [], categories.value)
+    if (res.code === 200) {
+      flattenTree(res.data || [], categories.value)
     }
   } catch (e) {
     console.error('加载类目失败', e)
@@ -117,8 +117,8 @@ async function doSearch() {
     if (selectedCategory.value) params.categoryId = selectedCategory.value
 
     const res = await searchProducts(params)
-    if (res.data?.code === 200) {
-      const d = res.data.data
+    if (res.code === 200) {
+      const d = res.data
       list.value = d.records || []
       total.value = d.total || 0
       pages.value = d.pages || 1

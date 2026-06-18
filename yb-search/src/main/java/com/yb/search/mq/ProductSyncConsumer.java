@@ -58,7 +58,8 @@ public class ProductSyncConsumer {
         doc.setImage(resp.getImage());
         doc.setPrice(resp.getPrice());
         doc.setStock(resp.getStock());
-        // categoryId 和 categoryName 暂无法从 ProductResp 获取，后续补充
+        doc.setCategoryId(resp.getCategoryId());
+        doc.setCategoryName(resp.getCategoryName());
         return doc;
     }
 }

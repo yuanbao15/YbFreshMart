@@ -44,7 +44,6 @@
         <module>yb-log</module>
 
         <!-- ===== 阶段四：订单 + 库存 + Sentinel ===
-        <module>yb-common-redis</module>
         <module>yb-common-sentinel</module>
         <module>yb-order</module>
         <module>yb-inventory</module>
@@ -214,11 +213,13 @@
                 <artifactId>yb-common-mongo</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!-- ===== 阶段四：Sentinel（届时启用）=====
             <dependency>
                 <groupId>com.yb</groupId>
                 <artifactId>yb-common-sentinel</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            -->
             <dependency>
                 <groupId>com.yb</groupId>
                 <artifactId>yb-api</artifactId>
